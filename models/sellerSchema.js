@@ -25,4 +25,5 @@ const sellerSchema = new mongoose.Schema({
     }
 });
 
-moduleexports = mongoose.model("seller", sellerSchema)
+// Exporting the seller schema
+module.exports = mongoose.model("seller", sellerSchema)

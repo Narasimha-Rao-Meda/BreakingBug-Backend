@@ -272,17 +272,15 @@ const getAddedToCartProducts = async (req, res) => {
             'cartDetails.seller': sellerId
         });
 
-        const productMap = new Map(); // Use a Map to aggregate products by ID
+        const productMap = new Map(); 
         customersWithSellerProduct.forEach(customer => {
             customer.cartDetails.forEach(cartItem => {
                 if (cartItem.seller.toString() === sellerId) {
                     const productId = cartItem._id.toString();
                     if (productMap.has(productId)) {
-                        // If product ID already exists, update the quantity
                         const existingProduct = productMap.get(productId);
                         existingProduct.quantity += cartItem.quantity;
                     } else {
-                        // If product ID does not exist, add it to the Map
                         productMap.set(productId, {
                             productName: cartItem.productName,
                             quantity: cartItem.quantity,

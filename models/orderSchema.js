@@ -49,7 +49,7 @@ const orderSchema = new mongoose.Schema(
                 }
             },
             subcategory: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: String, // Updated the type from ObjectId to String
             },
             productImage: {
                 type: String
@@ -108,7 +108,7 @@ const orderSchema = new mongoose.Schema(
         orderStatus: {
             type: String,
             required: true,
-            
+            default: "Processing", // Added default value for orderStatus
         },
         deliveredAt: Date,
         createdAt: {
@@ -117,4 +117,5 @@ const orderSchema = new mongoose.Schema(
         },
     });
 
-module.exports = mongoose.model("customer", orderSchema);
+// Updated the model name from customer to order
+module.exports = mongoose.model("order", orderSchema);

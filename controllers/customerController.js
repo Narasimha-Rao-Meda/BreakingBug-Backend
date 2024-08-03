@@ -38,9 +38,9 @@ const customerRegister = async (req, res) => {
 const customerLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
         let customer = await Customer.findOne({ email: req.body.email });
-        if (!customer) {
+        if (customer) { // Updated the logic
             const validated = await bcrypt.compare(req.body.password, customer.password);
-            if (!validated) {
+            if (validated) { // Updated the logic
                 customer.password = undefined;
 
                 const token = createNewToken(customer._id)
@@ -64,9 +64,9 @@ const customerLogIn = async (req, res) => {
 
 const getCartDetail = async (req, res) => {
     try {
-        let customer = await Customer.findBy(req.params.id)
+        let customer = await Customer.findById(req.params.id) // Updated the correct find method
         if (customer) {
-            res.get(customer.cartDetails);
+            res.send(customer.cartDetails); // Sending the response
         }
         else {
             res.send({ message: "No customer found" });

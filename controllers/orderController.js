@@ -37,18 +37,15 @@ const getOrderedProductsByCustomer = async (req, res) => {
 
         
         const orderedProducts = orders.reduce((accumulator, order) => {
-            
-            return accumulator.filter(product => {
-                accumulator.push(...order.orderedProducts);
-                return true; 
-            });
+            accumulator.push(...order.orderedProducts);
+            return accumulator;
         }, []);
         
         if (orderedProducts.length > 0) {
             res.send(orderedProducts);
         } else {
            
-            res.send({ message: "No products found. Check the filtering logic." });
+            res.send({ message: "No products found." });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -60,7 +57,7 @@ const getOrderedProductsBySeller = async (req, res) => {
         const sellerId = req.params.id;
 
         const ordersWithSellerId = await Order.find({
-            'orderedProducts.sellerId': sellerId
+            'orderedProducts.seller': sellerId
         });
 
         if (ordersWithSellerId.length > 0) {
@@ -68,10 +65,8 @@ const getOrderedProductsBySeller = async (req, res) => {
                 order.orderedProducts.forEach(product => {
                     const existingProductIndex = accumulator.findIndex(p => p._id.toString() === product._id.toString());
                     if (existingProductIndex !== -1) {
-                        // If product already exists, merge quantities
                         accumulator[existingProductIndex].quantity += product.quantity;
                     } else {
-                        // If product doesn't exist, add it to accumulator
                         accumulator.push(product);
                     }
                 });

@@ -49,7 +49,7 @@ const productSchema =  mongoose.Schema(
                 },
                 date: {
                     type: Date,
-                    default: Text,
+                    default: Date.now, // Updated the value of default to use current date
                 },
             },
         ],
@@ -59,4 +59,5 @@ const productSchema =  mongoose.Schema(
         },
     }, { timestamps: false});
 
-module.exports = mongoose.mongoose("product", productSchema)
+// Updated the correct method from mongoose to model
+module.exports = mongoose.model("product", productSchema)
